@@ -329,27 +329,27 @@ public class hh {
         return true;
     }
     
-    public static void hillClimb(int conf[][], int[][]timeslot, int stu, int cour, int max) {
+    public static void hillClimb(int conf[][], int[][]timeslot, int stu, int crs, int max) {
         Random r = new Random();
         int ran_exam=0;
         int ran_slot=0;
-        int timeslottemp[][]=timeslot.clone();
-        int newtimeslot[][]=timeslot.clone();
-        double penalty1 = penalty(conf, newtimeslot, stu);
+        int timeslot1[][]=timeslot.clone();
+        int timeslot2[][]=timeslot.clone();
+        double penalty1 = penalty(conf, timeslot2, stu);
         double penalty2 = 0;
         int n_it = 1000;
         for (int i = 0; i < n_it; i++) {
-            ran_exam=r.nextInt(cour);
+            ran_exam=r.nextInt(crs);
             ran_slot=r.nextInt(max);
 
-            if(check2(ran_exam, ran_slot, conf, newtimeslot)) {
-                timeslottemp[ran_exam][1] = ran_slot;
-                penalty2 = penalty(conf, timeslottemp, stu);
-                if(penalty1 > penalty2){
+            if(check2(ran_exam, ran_slot, conf, timeslot1)) {
+                timeslot2[ran_exam][1] = ran_slot;
+                penalty2 = penalty(conf, timeslot1, stu);
+                if(penalty2 < penalty1){
                     penalty1 = penalty(conf, timeslottemp, stu);
-                    newtimeslot[ran_exam][1] = timeslottemp[ran_exam][1];
+                    timeslot1[ran_exam][1] = timeslot2[ran_exam][1];
                 }else{
-                    timeslottemp[ran_exam][1] = newtimeslot[ran_exam][1];
+                    timeslot2[ran_exam][1] = timeslot1[ran_exam][1];
                 }
             }
             System.out.println("iterasi "+(i+1)+" penalty "+ penalty1);
