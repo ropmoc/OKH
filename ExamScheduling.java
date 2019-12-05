@@ -13,27 +13,144 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
+import org.graalvm.compiler.nodes.BreakpointNode;
 
 /**
  *
  * @author DELL
  */
-public class hh {
+public class ExamScheduling {
     static double pInit;
     static double pHill1;
     static double pHill2;
     static double pTabu1;
     static double pTabu2;
-    
+    static long hctime;
+    static long tstime;
+    static int [][] sch1;
+    static int [][] schHC;
+    static int [][] schTS;
+    static int nslot;
+    static int method;
     
     public static void main(String[] args) {
-        String stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\sta-f-83.stu";
-        String crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\sta-f-83.crs";
-        timeTabling(crs, stu);
-        System.out.println("done");
-        System.out.println("Initial Penalty : "+pInit);
-        System.out.println("HC penalty : "+ pHill1);
-        System.out.println("TS Penalty : "+ pTabu1);
+        String carf92_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-f-92.crs";
+        String carf92_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-f-92.stu";
+
+        String cars91_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-s-91.crs";
+        String cars91_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-s-91.stu";
+
+        String earf83_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\ear-f-83.crs";
+        String earf83_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\ear-f-83.stu";
+
+        String hecs92_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\hec-s-92.crs";
+        String hecs92_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\hec-s-92.stu";
+
+        String kfus93_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\kfu-s-93.crs";
+        String kfus93_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\kfu-s-93.stu";
+
+        String lsef91_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\lse-f-91.crs";
+        String lsef91_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\lse-f-91.stu";
+
+        String purs93_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\pur-s-93.crs";
+        String purs93_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\pur-s-93.stu";
+
+        String ryes93_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\rye-s-93.crs";
+        String ryes93_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\rye-s-93.stu";
+
+        String staf83_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\sta-f-83.crs";
+        String staf83_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\sta-f-83.stu";
+
+        String tres92_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\tre-s-92.crs";
+        String tres92_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\tre-s-92.stu";
+
+        String utas92_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\uta-s-92.crs";
+        String utas92_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\uta-s-92.stu";
+
+        String utes92_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\ute-s-92.crs";
+        String utes92_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\ute-s-92.stu";
+
+        String yorf83_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\yor-f-83.crs";
+        String yorf83_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\yor-f-83.stu";
+        
+        Scanner in = new Scanner(System.in);
+        System.out.println("Choose : ");
+        System.out.println("1. car-f-92");
+        System.out.println("2. car-s-91");
+        System.out.println("3. ear-f-83");
+        System.out.println("4. hec-s-92");
+        System.out.println("5. kfu-s-93");
+        System.out.println("6. lse-f-91");
+        System.out.println("7. pur-s-93");
+        System.out.println("8. rye-s-93");
+        System.out.println("9. sta-f-83");
+        System.out.println("10. tre-s-92");
+        System.out.println("11. uta-s-92");
+        System.out.println("12. ute-s-92");
+        System.out.println("13. yot-f-83");
+        System.out.println("0. Exit");
+
+        System.out.println("choice : ");
+        int input = in.nextInt();
+        
+        System.out.println("1. Hill Climbing");
+        System.out.println("2. Tabu Search");
+        System.out.println("3. Both");
+        System.out.println("choose method : ");
+        method = in.nextInt();
+
+        switch(input) {
+            case 1 :
+                timeTabling(carf92_crs, carf92_stu);
+                break;
+            case 2 :
+                timeTabling(cars91_crs, cars91_stu);
+                break;
+            case 3 :
+                timeTabling(earf83_crs, earf83_stu);
+                break;
+            case 4 :
+                timeTabling(hecs92_crs, hecs92_stu);
+                break;
+            case 5 :
+                timeTabling(kfus93_crs, kfus93_stu);
+                break;
+            case 6 :
+                timeTabling(lsef91_crs, lsef91_stu);
+                break;
+            case 7 :
+                timeTabling(purs93_crs, purs93_stu);
+                break;
+            case 8 :
+                timeTabling(ryes93_crs, ryes93_stu);
+                break;
+            case 9 :
+                timeTabling(staf83_crs, staf83_stu);
+                break;
+            case 10 :
+                timeTabling(tres92_crs, tres92_stu);
+                break;
+            case 11 :
+                timeTabling(utas92_crs, utas92_stu);
+                break;
+            case 12 :
+                timeTabling(utes92_crs, utes92_stu);
+                break;
+            case 13 :
+                timeTabling(yorf83_crs, yorf83_stu);
+                break;
+
+            case 0 :
+                System.out.println("exit");
+                break;
+            default :
+                break;
+            }
+
+            in.close();
+        
+
     }
     public static void timeTabling(String crs, String stu) {
         ArrayList<String> course; 
@@ -71,8 +188,8 @@ public class hh {
                             int index1 = Integer.parseInt(arr[i]);
                             int index2 = Integer.parseInt(arr[j]);
                             
-                            conflict_matrix[index1-1][index2-1]=1;
-                            conflict_matrix[index2-1][index1-1]=1;
+                            conflict_matrix[index1-1][index2-1]++;
+                            conflict_matrix[index2-1][index1-1]++;
                         }
                     }
                 }
@@ -139,7 +256,7 @@ public class hh {
             
             double penalty = 0;
             pInit = penalty(conflict_matrix,timeslot,student.size());
-            System.out.println("penalty : " + penalty);
+            System.out.println("penalty : " + pInit);
             
             int max_timeslot = 0;
             
@@ -147,12 +264,44 @@ public class hh {
                 if(timeslot[i][1] > max_timeslot)
                         max_timeslot = timeslot[i][1];
             }
+            nslot = max_timeslot;
 //            hillClimb(conflict_matrix, timeslot, ts, sum, ts);
-            int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
+            if(method == 1){
+                int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
+                System.out.println("done");
+                System.out.println("number of timeslot : "+nslot);
+                System.out.println("Initial Penalty : "+pInit);
+                System.out.println("HC penalty : "+ pHill1);
+                System.out.println("HC Delta  : " + delta(pInit, pHill1));
+                System.out.println("HC time : " + hctime);
+            } else if(method == 2){
+                int tsTabus[][]= tabus(timeslot, conflict_matrix, course, student, max_timeslot);
+                System.out.println("done");
+                System.out.println("number of timeslot : "+nslot);
+                System.out.println("Initial Penalty : "+pInit);
+                System.out.println("TS Penalty : "+ pTabu1);
+                System.out.println("TS Delta  : " + delta(pInit, pTabu1));
+                System.out.println("TS time : " + tstime);
+            } else if(method == 3) {
+                int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
+                int tsTabus[][]= tabus(timeslot, conflict_matrix, course, student, max_timeslot);
+                System.out.println("done");
+                System.out.println("number of timeslot : "+nslot);
+                System.out.println("Initial Penalty : "+pInit);
+                System.out.println("HC penalty : "+ pHill1);
+                System.out.println("HC Delta  : " + delta(pInit, pHill1));
+                System.out.println("HC time : " + hctime);
+                System.out.println("TS Penalty : "+ pTabu1);
+                System.out.println("TS Delta  : " + delta(pInit, pTabu1));
+                System.out.println("TS time : " + tstime);
+            } 
+            
+            
+            
 //            tabus(timeslot, conflict_matrix, course, student, max_timeslot);
-            for(int i = 0; i < timeslot.length; i++){
-                System.out.println(Arrays.toString(tsHillClimb[i]));
-            }
+//            for(int i = 0; i < timeslot.length; i++){
+//                System.out.println(Arrays.toString(tsHillClimb[i]));
+//            }
             
             
         }
@@ -160,6 +309,13 @@ public class hh {
             System.out.println("error: " + e);
             e.printStackTrace();
         }
+    }
+    public static double delta(double pInit, double pMethod) {
+        double delta;
+        
+        delta = (pInit - pMethod)/pInit;
+        
+        return delta;
     }
     
     public static int[][] tabus(int[][]timeslot, int[][]conflict_matrix , ArrayList<String> course, ArrayList<String> student, int max_timeslot) {
@@ -174,119 +330,137 @@ public class hh {
             
             int[][]sbest = timeslot.clone();
             int[][]bestcandidate = timeslot.clone();
-            int[][]timeslot1 = timeslot.clone();
+            int[][]ts1 = timeslot.clone();
+            int[][]ts2 = timeslot.clone();
+            int[][]ts3 = timeslot.clone();
+            int[][]ts4 = timeslot.clone();
+            int[][]ts5 = timeslot.clone();
             
             LinkedList<int[][]> tabulist = new LinkedList<int[][]>();
             int maxtabusize = 10;
             tabulist.addLast(timeslot.clone());
             
-            int ts_it = 10000;
+            int ts_it = 1000;
             int iteration=0;
             
             double penalty1 = 0;
             double penalty2 = 0;
-            double penalty3 = 0;
+            double penalty3 = penalty(conflict_matrix, timeslot, student.size());
             
             boolean terminate = false;
-            long starttimer = System.nanoTime();
+            long starttime = System.nanoTime();
             while(iteration < ts_it ){
                 iteration++;
                 
 
                 ArrayList<int[][]> sneighborhood = new ArrayList<>();
 
-
-                //move 1
-                rindex1 = r.nextInt(course.size());
-                rslot1 = r.nextInt(max_timeslot);
-                if (check2(rindex1, rslot1, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex1][1] = rslot1;
-                }
-                sneighborhood.add(timeslot1);
+                boolean cek1 = false;
+                boolean cek2 = false;
+                boolean cek3 = false;
+               
+                do{
+                    rindex1 = r.nextInt(course.size());
+                    rslot1 = r.nextInt(max_timeslot);
+                    cek1 = !check2(rindex1, rslot1, conflict_matrix, ts1);
+                }while(cek1);
+                ts1[rindex1][1] = rslot1; 
+                sneighborhood.add(ts1);
+                
+                cek1 = false;
 
                 //move 2
-                rindex1 = r.nextInt(course.size());
-                rslot1 = r.nextInt(max_timeslot);
-                rindex2 = r.nextInt(course.size());
-                rslot2 = r.nextInt(max_timeslot);
-                if (check2(rindex1, rslot1, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex1][1] = rslot1;
-                }
-                if (check2(rindex2, rslot2, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex2][1] = rslot2;
-                }
-                sneighborhood.add(timeslot1);
+                do {                    
+                    rindex1 = r.nextInt(course.size());
+                    rslot1 = r.nextInt(max_timeslot);
+                    rindex2 = r.nextInt(course.size());
+                    rslot2 = r.nextInt(max_timeslot);
+                    cek1 = !check2(rindex1, rslot1, conflict_matrix, ts2);
+                    cek2 = !check2(rindex2, rslot2, conflict_matrix, ts2);
+                } while(cek1 && cek2);
+                ts2[rindex1][1] = rslot1;
+                ts2[rindex2][1] = rslot2;
+                sneighborhood.add(ts2);
 
+                cek1 = false;
+                cek2 = false;
+                
+                //move 2
+                do {                    
+                    rindex1 = r.nextInt(course.size());
+                    rslot1 = r.nextInt(max_timeslot);
+                    rindex2 = r.nextInt(course.size());
+                    rslot2 = r.nextInt(max_timeslot);
+                    rindex3 = r.nextInt(course.size());
+                    rslot3 = r.nextInt(max_timeslot);
+                    cek1 = !check2(rindex1, rslot1, conflict_matrix, ts3);
+                    cek2 = !check2(rindex2, rslot2, conflict_matrix, ts3);
+                    cek3 = !check2(rindex3, rslot3, conflict_matrix, ts3);
+                } while(cek1 && cek2 && cek3);
+                ts3[rindex1][1] = rslot1;
+                ts3[rindex2][1] = rslot2;
+                ts3[rindex3][1] = rslot3;
+                sneighborhood.add(ts3);
 
-                rindex1 = r.nextInt(course.size());
-                rslot1 = r.nextInt(max_timeslot);
-                rindex2 = r.nextInt(course.size());
-                rslot2 = r.nextInt(max_timeslot);
-                rindex3 = r.nextInt(course.size());
-                rslot3 = r.nextInt(max_timeslot);
-                if (check2(rindex1, rslot1, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex1][1] = rslot1;
-                }
-                if (check2(rindex2, rslot2, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex2][1] = rslot2;
-                }
-                if (check2(rindex3, rslot3, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex3][1] = rslot3;
-                }
-                sneighborhood.add(timeslot1);
-
-
-
+                cek1 = false;
+                cek2 = false;   
+                cek3 = false;     
 
                 do{
                     rindex1 = r.nextInt(course.size());
                     rindex2 = r.nextInt(course.size());
-                }while(rindex1==rindex2);
-                rslot1 = timeslot1[rindex1][1];
-                rslot2 = timeslot1[rindex2][1];
-                if (check2(rindex1, rslot2, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex1][1]=rslot2;
-                }
-                if (check2(rindex2, rslot1, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex2][1]=rslot1;
-                }
-                sneighborhood.add(timeslot1);
-
+                    cek1 = !check2(rindex1, rslot1, conflict_matrix, ts4);
+                    cek2 = !check2(rindex2, rslot2, conflict_matrix, ts4);
+                }while(rindex1==rindex2 && cek2 && cek3);
+                rslot1 = ts4[rindex1][1];
+                rslot2 = ts4[rindex2][1];
+                ts4[rindex1][1]=rslot2;
+                ts4[rindex2][1]=rslot1;
+                sneighborhood.add(ts4);
+                
+                cek1 = false;
+                cek2 = false; 
 
                  do{
                     rindex1 = r.nextInt(course.size());
                     rindex2 = r.nextInt(course.size());
                     rindex3 = r.nextInt(course.size());
-                }while(rindex1==rindex2||rindex1==rindex3||rindex2==rindex3);
-                rslot1 = timeslot1[rindex1][1];
-                rslot2 = timeslot1[rindex2][1];
-                rslot3 = timeslot1[rindex3][1];
-                if (check2(rindex1, rslot2, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex1][1]=rslot2;
-                }
-                if (check2(rindex2, rslot3, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex2][1]=rslot3;
-                }
-                if (check2(rindex3, rslot1, conflict_matrix, timeslot1)) {
-                    timeslot1[rindex3][1]=rslot1;
-                }
-                sneighborhood.add(timeslot1);
+                    cek1 = !check2(rindex1, rslot1, conflict_matrix, ts5);
+                    cek2 = !check2(rindex2, rslot2, conflict_matrix, ts5);
+                    cek3 = !check2(rindex3, rslot3, conflict_matrix, ts5);
+                }while(rindex1==rindex2 && rindex1==rindex3 && rindex2==rindex3 && cek1 && cek2 && cek3);
+                rslot1 = ts5[rindex1][1];
+                rslot2 = ts5[rindex2][1];
+                rslot3 = ts5[rindex3][1];
+                ts5[rindex1][1]=rslot2;
+                ts5[rindex2][1]=rslot3;
+                ts5[rindex3][1]=rslot1;
+                
+                sneighborhood.add(ts5);
 //                    System.out.println(sneighborhood.size());
 
-                int j = 0;
-                while (sneighborhood.size() > j) {
-                    penalty2 = penalty(conflict_matrix, sneighborhood.get(j), student.size());
+                
+                for(int i = 0; i < sneighborhood.size(); i++){
                     penalty1 = penalty(conflict_matrix, bestcandidate, student.size());
-                    if(!(tabulist.contains(sneighborhood.get(j))) && penalty2<penalty1){
-                        bestcandidate = sneighborhood.get(j);
+                    penalty2 = penalty(conflict_matrix, sneighborhood.get(i), student.size());
+                    if(!(tabulist.contains(sneighborhood.get(i))) && penalty2<penalty1){
+                        bestcandidate = sneighborhood.get(i);
                     }
-                        j++;
                 }
-
+//                while (sneighborhood.size() > j) {
+//                    penalty1 = penalty(conflict_matrix, bestcandidate, student.size());
+//                    penalty2 = penalty(conflict_matrix, sneighborhood.get(j), student.size());
+//                    if(!(tabulist.contains(sneighborhood.get(j))) && penalty2<penalty1){
+//                        bestcandidate = sneighborhood.get(j);
+//                    }
+//                        j++;
+//                }
+                
                 sneighborhood.clear();
-
-                if(penalty(conflict_matrix, bestcandidate, student.size()) < penalty(conflict_matrix, sbest, student.size())){
+                
+                if(penalty1 < penalty3){
                     sbest = bestcandidate;
+                    penalty3 = penalty1;
                 }
                 tabulist.addLast(bestcandidate);
                 if(tabulist.size() > maxtabusize){
@@ -294,32 +468,33 @@ public class hh {
                 }
                     //return sbest;
                     
-//                System.out.println("iteration "+iteration+" penalty "+ penalty(conflict_matrix, sbest, student.size()));
+                System.out.println("iteration "+iteration+" penalty "+ penalty3);
 
             }
-            long endtimer   = System.nanoTime();
-            long totaltimer = endtimer - starttimer;
+            pTabu1 = penalty3;
+            long endtime   = System.nanoTime();
+            long time = endtime - starttime;
             
             
             penalty3 = penalty(conflict_matrix, sbest, student.size());
-            
+            schTS = sbest;
             //hillclimbing(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
-            
-            System.out.println("time : " + (double)totaltimer/1000000000 + " detik");
-            
-            System.out.println("initial penalty: "+ in_penalty);
-            System.out.println("tabu search penalty: "+ penalty3);
-            
+            tstime = time;
+            System.out.println("time : " + (double)time/1000000000 + " s");
+//            pTabu1 = penalty3;
+//            System.out.println("initial penalty: "+ in_penalty);
+//            System.out.println("tabu search penalty: "+ pTabu1);
+//            
         return sbest;
     }
     
-    public static double penalty(int[][]conflict_matrix,int[][]timeslot,int student) {
+    public static double penalty(int[][]conflict_matrix,int[][]timeslot,int student){
         double penalty = 0;
         for(int i=0;i<conflict_matrix.length-1;i++){
                 for(int j=i+1;j<conflict_matrix.length;j++){
                     if(conflict_matrix[i][j]!=0){
                         if(Math.abs(timeslot[j][1]-timeslot[i][1])>=1 && Math.abs(timeslot[j][1]-timeslot[i][1])<=5){
-                            penalty = (penalty + conflict_matrix[i][j]*(Math.pow(2, (5-(Math.abs(timeslot[j][1]-timeslot[i][1]))))));
+                            penalty = penalty + (conflict_matrix[i][j]*(Math.pow(2, (5-(Math.abs(timeslot[j][1]-timeslot[i][1]))))));
                         }
                     }
                 }
@@ -348,6 +523,7 @@ public class hh {
         int timeslotH2[][]=timeslot.clone();
         pHill1 = pInit;
         int n_it = 1000;
+        long starttime = System.nanoTime();
         for (int i = 0; i < n_it; i++) {
             ran_exam=r.nextInt(cour);
             ran_slot=r.nextInt(max);
@@ -363,8 +539,15 @@ public class hh {
                     timeslotH2[ran_exam][1] = timeslotH1[ran_exam][1];
                 }
             }
+            
             System.out.println("iterasi "+(i+1)+" penalty "+ pHill1);
         }
+        long endtime   = System.nanoTime();
+        long time = endtime - starttime;
+        hctime = time;
+        
+        System.out.println("time : " + (double)time/1000000000 + " s");
+        
         return timeslotH2;
         
     }
@@ -383,3 +566,4 @@ public class hh {
     }
     
 }
+    
