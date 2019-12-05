@@ -325,8 +325,8 @@ public class ExamScheduling {
             
             Random r = new Random();
 
-            int rindex1,rindex2,rindex3 = 0;
-            int rslot1,rslot2,rslot3 = 0;
+            int ran_exam1,ran_exam2,ran_exam3 = 0;
+            int ran_slot1,ran_slot2,ran_slot3 = 0;
             
             int[][]sbest = timeslot.clone();
             int[][]bestcandidate = timeslot.clone();
@@ -360,26 +360,26 @@ public class ExamScheduling {
                 boolean cek3 = false;
                
                 do{
-                    rindex1 = r.nextInt(course.size());
-                    rslot1 = r.nextInt(max_timeslot);
-                    cek1 = !check2(rindex1, rslot1, conflict_matrix, ts1);
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_slot1 = r.nextInt(max_timeslot);
+                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts1);
                 }while(cek1);
-                ts1[rindex1][1] = rslot1; 
+                ts1[ran_exam1][1] = ran_slot1; 
                 sneighborhood.add(ts1);
                 
                 cek1 = false;
 
                 //move 2
                 do {                    
-                    rindex1 = r.nextInt(course.size());
-                    rslot1 = r.nextInt(max_timeslot);
-                    rindex2 = r.nextInt(course.size());
-                    rslot2 = r.nextInt(max_timeslot);
-                    cek1 = !check2(rindex1, rslot1, conflict_matrix, ts2);
-                    cek2 = !check2(rindex2, rslot2, conflict_matrix, ts2);
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_slot1 = r.nextInt(max_timeslot);
+                    ran_exam2 = r.nextInt(course.size());
+                    ran_slot2 = r.nextInt(max_timeslot);
+                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts2);
+                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts2);
                 } while(cek1 && cek2);
-                ts2[rindex1][1] = rslot1;
-                ts2[rindex2][1] = rslot2;
+                ts2[ran_exam1][1] = ran_slot1;
+                ts2[ran_exam2][1] = ran_slot2;
                 sneighborhood.add(ts2);
 
                 cek1 = false;
@@ -387,19 +387,19 @@ public class ExamScheduling {
                 
                 //move 2
                 do {                    
-                    rindex1 = r.nextInt(course.size());
-                    rslot1 = r.nextInt(max_timeslot);
-                    rindex2 = r.nextInt(course.size());
-                    rslot2 = r.nextInt(max_timeslot);
-                    rindex3 = r.nextInt(course.size());
-                    rslot3 = r.nextInt(max_timeslot);
-                    cek1 = !check2(rindex1, rslot1, conflict_matrix, ts3);
-                    cek2 = !check2(rindex2, rslot2, conflict_matrix, ts3);
-                    cek3 = !check2(rindex3, rslot3, conflict_matrix, ts3);
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_slot1 = r.nextInt(max_timeslot);
+                    ran_exam2 = r.nextInt(course.size());
+                    ran_slot2 = r.nextInt(max_timeslot);
+                    ran_exam3 = r.nextInt(course.size());
+                    ran_slot3 = r.nextInt(max_timeslot);
+                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts3);
+                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts3);
+                    cek3 = !check2(ran_exam3, ran_slot3, conflict_matrix, ts3);
                 } while(cek1 && cek2 && cek3);
-                ts3[rindex1][1] = rslot1;
-                ts3[rindex2][1] = rslot2;
-                ts3[rindex3][1] = rslot3;
+                ts3[ran_exam1][1] = ran_slot1;
+                ts3[ran_exam2][1] = ran_slot2;
+                ts3[ran_exam3][1] = ran_slot3;
                 sneighborhood.add(ts3);
 
                 cek1 = false;
@@ -407,34 +407,34 @@ public class ExamScheduling {
                 cek3 = false;     
 
                 do{
-                    rindex1 = r.nextInt(course.size());
-                    rindex2 = r.nextInt(course.size());
-                    cek1 = !check2(rindex1, rslot1, conflict_matrix, ts4);
-                    cek2 = !check2(rindex2, rslot2, conflict_matrix, ts4);
-                }while(rindex1==rindex2 && cek2 && cek3);
-                rslot1 = ts4[rindex1][1];
-                rslot2 = ts4[rindex2][1];
-                ts4[rindex1][1]=rslot2;
-                ts4[rindex2][1]=rslot1;
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_exam2 = r.nextInt(course.size());
+                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts4);
+                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts4);
+                }while(ran_exam1==ran_exam2 && cek2 && cek3);
+                ran_slot1 = ts4[ran_exam1][1];
+                ran_slot2 = ts4[ran_exam2][1];
+                ts4[ran_exam1][1]=ran_slot2;
+                ts4[ran_exam2][1]=ran_slot1;
                 sneighborhood.add(ts4);
                 
                 cek1 = false;
                 cek2 = false; 
 
                  do{
-                    rindex1 = r.nextInt(course.size());
-                    rindex2 = r.nextInt(course.size());
-                    rindex3 = r.nextInt(course.size());
-                    cek1 = !check2(rindex1, rslot1, conflict_matrix, ts5);
-                    cek2 = !check2(rindex2, rslot2, conflict_matrix, ts5);
-                    cek3 = !check2(rindex3, rslot3, conflict_matrix, ts5);
-                }while(rindex1==rindex2 && rindex1==rindex3 && rindex2==rindex3 && cek1 && cek2 && cek3);
-                rslot1 = ts5[rindex1][1];
-                rslot2 = ts5[rindex2][1];
-                rslot3 = ts5[rindex3][1];
-                ts5[rindex1][1]=rslot2;
-                ts5[rindex2][1]=rslot3;
-                ts5[rindex3][1]=rslot1;
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_exam2 = r.nextInt(course.size());
+                    ran_exam3 = r.nextInt(course.size());
+                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts5);
+                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts5);
+                    cek3 = !check2(ran_exam3, ran_slot3, conflict_matrix, ts5);
+                }while(ran_exam1==ran_exam2 && ran_exam1==ran_exam3 && ran_exam2==ran_exam3 && cek1 && cek2 && cek3);
+                ran_slot1 = ts5[ran_exam1][1];
+                ran_slot2 = ts5[ran_exam2][1];
+                ran_slot3 = ts5[ran_exam3][1];
+                ts5[ran_exam1][1]=ran_slot2;
+                ts5[ran_exam2][1]=ran_slot3;
+                ts5[ran_exam3][1]=ran_slot1;
                 
                 sneighborhood.add(ts5);
 //                    System.out.println(sneighborhood.size());
@@ -558,8 +558,8 @@ public class ExamScheduling {
         
         Random r = new Random();
         
-        int rindex1,rindex2,rindex3 = 0;
-        int rslot1,rslot2,rslot3 = 0;
+        int ran_exam1,ran_exam2,ran_exam3 = 0;
+        int ran_slot1,ran_slot2,ran_slot3 = 0;
         
         
         
