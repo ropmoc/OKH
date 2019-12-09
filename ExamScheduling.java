@@ -688,15 +688,16 @@ public class hh {
         ts5[ran_exam3][1]=ran_slot1;
         sneighborhood.add(ts5);
         
-        while(ts_it>0){
+        for(int i=0;i<ts_it;){
             int k=0;
+            i=i+1;
             while(k<sneighborhood.size()){
+                int [][]knx = sneighborhood.get(k);
                 do{
                     ran_examx = r.nextInt(course.size());
                     ran_slotx = r.nextInt(max_timeslot);
-                    cekx = !check2(ran_exam1, ran_slot1, conflict_matrix, ts1);
-                }while(cek1);
-                int [][]knx = sneighborhood.get(k);
+                    cekx = !check2(ran_examx, ran_slotx, conflict_matrix, knx);
+                }while(cekx);
                 knx[ran_examx][1] = ran_slotx;
                 cekx = false;
                 int [][]knxx = hillClimb(conflict_matrix, knx, student.size(), course.size(), max_timeslot);
@@ -710,8 +711,8 @@ public class hh {
                     k=k+1;
                 }
             }
-            ts_it = ts_it-1;
-            System.out.println("iterasi "+ts_it+" penalty "+ bestpenalty);
+           
+            System.out.println("iterasi "+i+" penalty "+ bestpenalty);
         }       
         
         pVNS = bestpenalty;
