@@ -29,12 +29,16 @@ public class hh {
     static double pVNS;
     static long hctime;
     static long tstime;
+    static long vnstime;
     static int [][] sch1;
     static int [][] schHC;
     static int [][] schTS;
     static int [][] schVNS;
     static int nslot;
     static int method;
+    static ArrayList<Double> listPen = new ArrayList<Double>();
+    static ArrayList<Double> listPenVns = new ArrayList<Double>();
+    static ArrayList<Double> listPenTS = new ArrayList<Double>();
     
     public static void main(String[] args) {
         String carf92_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-f-92.crs";
@@ -98,8 +102,8 @@ public class hh {
         
         System.out.println("1. Hill Climbing");
         System.out.println("2. Tabu Search");
-        System.out.println("3. Both");
-        System.out.println("4. VNS");
+        System.out.println("3. VNS");
+        System.out.println("4. VNS v Tabu Search");
         System.out.println("choose method : ");
         method = in.nextInt();
 
@@ -289,26 +293,36 @@ public class hh {
                 System.out.println("TS Penalty : "+ pTabu1);
                 System.out.println("TS Delta  : " + delta(pInit, pTabu1));
                 System.out.println("TS time : " + tstime);
-            } else if(method == 3) {
-                int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
-                int tsTabus[][]= tabus(timeslot, conflict_matrix, course, student, max_timeslot);
-                System.out.println("done");
-                System.out.println("number of timeslot : "+nslot);
-                System.out.println("Initial Penalty : "+pInit);
-                System.out.println("HC penalty : "+ pHill1);
-                System.out.println("HC Delta  : " + delta(pInit, pHill1));
-                System.out.println("HC time : " + hctime);
-                System.out.println("TS Penalty : "+ pTabu1);
-                System.out.println("TS Delta  : " + delta(pInit, pTabu1));
-                System.out.println("TS time : " + tstime);
-            } else if(method == 4) {
+//                for(int i = 0;i<listPen.size();i++){
+//                    System.out.println(listPen.get(i));
+//                    
+//                }
+                for(int i =0;i<tsTabus.length;i++){
+                    System.out.println(Arrays.toString(tsTabus[i]));
+                }
+            }else if(method == 3) {
                 int tsvns[][]=vns(timeslot, conflict_matrix, course, student, max_timeslot);
                 System.out.println("done");
                 System.out.println("number of timeslot : "+nslot);
                 System.out.println("Initial Penalty : "+pInit);
                 System.out.println("VNS Penalty : "+ pVNS);
                 System.out.println("VNS Delta  : " + delta(pInit, pVNS));
-            }
+            } 
+            else if(method == 4) {
+//                int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
+                int tsvns[][]=vns(timeslot, conflict_matrix, course, student, max_timeslot);
+                int tsTabus[][]= tabus(timeslot, conflict_matrix, course, student, max_timeslot);
+                System.out.println("done");
+                System.out.println("number of timeslot : "+nslot);
+                System.out.println("Initial Penalty : "+pInit);
+                System.out.println("VNS penalty : "+ pVNS);
+                System.out.println("VNS Delta  : " + delta(pInit, pVNS));
+                System.out.println("VNS time : " + vnstime);
+                System.out.println("TS Penalty : "+ pVNS);
+                System.out.println("TS Delta  : " + delta(pInit, pTabu1));
+                System.out.println("TS time : " + tstime);
+            } 
+            
                
             
 //            tabus(timeslot, conflict_matrix, course, student, max_timeslot);
@@ -326,7 +340,7 @@ public class hh {
     public static double delta(double pInit, double pMethod) {
         double delta;
         
-        delta = (pInit - pMethod)/pInit;
+        delta = ((pInit - pMethod)/pInit)*100;
         
         return delta;
     }
@@ -365,7 +379,7 @@ public class hh {
             while(iteration < ts_it ){
                 iteration++;
                 
-
+                
                 ArrayList<int[][]> sneighborhood = new ArrayList<>();
 
                 boolean cek1 = false;
@@ -480,7 +494,10 @@ public class hh {
                 }
                     //return sbest;
                     
-                System.out.println("iteration "+iteration+" penalty "+ penalty3);
+                System.out.println(iteration+"-->"+" penalty "+ penalty3);
+                if(iteration%10==0){
+                    listPen.add(penalty3);
+                }
 
             }
             pTabu1 = penalty3;
@@ -493,6 +510,7 @@ public class hh {
             //hillclimbing(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
             tstime = time;
             System.out.println("time : " + (double)time/1000000000 + " s");
+            
 //            pTabu1 = penalty3;
 //            System.out.println("initial penalty: "+ in_penalty);
 //            System.out.println("tabu search penalty: "+ pTabu1);
@@ -609,7 +627,8 @@ public class hh {
         boolean cek1 = false;
         boolean cek2 = false;
         boolean cek3,cekx = false;
-
+        
+        long startvns = System.nanoTime();
         do{
             ran_exam1 = r.nextInt(course.size());
             ran_slot1 = r.nextInt(max_timeslot);
@@ -690,7 +709,7 @@ public class hh {
         
         for(int i=0;i<ts_it;){
             int k=0;
-            i=i+1;
+           
             while(k<sneighborhood.size()){
                 int [][]knx = sneighborhood.get(k);
                 do{
@@ -701,8 +720,8 @@ public class hh {
                 knx[ran_examx][1] = ran_slotx;
                 cekx = false;
                 int [][]knxx = hillClimb(conflict_matrix, knx, student.size(), course.size(), max_timeslot);
-                penalty1 = penalty(conflict_matrix, knx, ts_it);
-                penalty2 = penalty(conflict_matrix, knxx, ts_it);
+                penalty1 = penalty(conflict_matrix, knx, student.size());
+                penalty2 = penalty(conflict_matrix, knxx, student.size());
                 if(penalty2<bestpenalty){
                     bestpenalty = penalty2;
                     sbest = knxx;
@@ -711,11 +730,19 @@ public class hh {
                     k=k+1;
                 }
             }
-           
-            System.out.println("iterasi "+i+" penalty "+ bestpenalty);
+            i=i+1;
+            System.out.println(i+"-->"+" penalty "+ bestpenalty);
+            if(i%10==0){
+                listPenVns.add(bestpenalty);
+            }
         }       
+        long endvns   = System.nanoTime();
+        long time = endvns - startvns;
+        
+        
         
         pVNS = bestpenalty;
+        vnstime = time;
         return best_sol_vns;
     }
 }
