@@ -285,6 +285,18 @@ public class hh {
                 System.out.println("HC penalty : "+ pHill1);
                 System.out.println("HC Delta  : " + delta(pInit, pHill1));
                 System.out.println("HC time : " + hctime);
+                for(int i = 0; i<tsHillClimb.length;i++){
+                    if(tsHillClimb[i][0]<100 && tsHillClimb[i][0]>10){
+                        System.out.println("00"+tsHillClimb[i][0]+"	"+tsHillClimb[i][1]);
+                    }
+                    else if(tsHillClimb[i][0]>100){
+                        System.out.println("0"+tsHillClimb[i][0]+"	"+tsHillClimb[i][1]);
+                    } else{
+                        System.out.println("000"+tsHillClimb[i][0]+"	"+tsHillClimb[i][1]);
+                    }
+                    
+                }
+            
             } else if(method == 2){
                 int tsTabus[][]= tabus(timeslot, conflict_matrix, course, student, max_timeslot);
                 System.out.println("done");
@@ -318,9 +330,20 @@ public class hh {
                 System.out.println("VNS penalty : "+ pVNS);
                 System.out.println("VNS Delta  : " + delta(pInit, pVNS));
                 System.out.println("VNS time : " + vnstime);
-                System.out.println("TS Penalty : "+ pVNS);
+                System.out.println("TS Penalty : "+ pTabu1);
                 System.out.println("TS Delta  : " + delta(pInit, pTabu1));
                 System.out.println("TS time : " + tstime);
+                System.out.println("===============================");
+                System.out.println("List penalty VNS");
+                for(int i=0; i<listPenVns.size();i++){
+                    System.out.println(listPenVns.get(i));
+                }
+                System.out.println("===============================");
+                System.out.println("List penalty TS");
+                for(int i=0; i<listPen.size();i++){
+                    System.out.println(listPen.get(i));
+                }
+                System.out.println("===============================");
             } 
             
                
@@ -503,13 +526,13 @@ public class hh {
             pTabu1 = penalty3;
             long endtime   = System.nanoTime();
             long time = endtime - starttime;
-            
+            time = (long)time/1000000000;
             
             penalty3 = penalty(conflict_matrix, sbest, student.size());
             schTS = sbest;
             //hillclimbing(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
             tstime = time;
-            System.out.println("time : " + (double)time/1000000000 + " s");
+            
             
 //            pTabu1 = penalty3;
 //            System.out.println("initial penalty: "+ in_penalty);
@@ -574,6 +597,7 @@ public class hh {
         }
         long endtime   = System.nanoTime();
         long time = endtime - starttime;
+        time = (long)time/1000000000;
         hctime = time;
         
 //        System.out.println("time : " + (double)time/1000000000 + " s");
@@ -711,6 +735,7 @@ public class hh {
             int k=0;
            
             while(k<sneighborhood.size()){
+                //shaking
                 int [][]knx = sneighborhood.get(k);
                 do{
                     ran_examx = r.nextInt(course.size());
@@ -719,6 +744,7 @@ public class hh {
                 }while(cekx);
                 knx[ran_examx][1] = ran_slotx;
                 cekx = false;
+                //local search
                 int [][]knxx = hillClimb(conflict_matrix, knx, student.size(), course.size(), max_timeslot);
                 penalty1 = penalty(conflict_matrix, knx, student.size());
                 penalty2 = penalty(conflict_matrix, knxx, student.size());
@@ -738,7 +764,7 @@ public class hh {
         }       
         long endvns   = System.nanoTime();
         long time = endvns - startvns;
-        
+        time = (long)time/1000000000;
         
         
         pVNS = bestpenalty;
