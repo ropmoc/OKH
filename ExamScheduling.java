@@ -307,10 +307,10 @@ public class hh {
             }
 
            
-            for(int i = 0; i < timeslot.length; i++){
-                System.out.println(Arrays.toString(timeslot[i]));
-            }
-            
+//            for(int i = 0; i < timeslot.length; i++){
+//                System.out.println(Arrays.toString(timeslot[i]));
+//            }
+            export(timeslot, "init");
             double penalty = 0;
             pInit = penalty(conflict_matrix,timeslot,student.size());
             System.out.println("penalty : " + pInit);
@@ -322,9 +322,9 @@ public class hh {
             for(int i = 0; i<timeslot.length; i++) {
                 if(timeslot[i][1] > max_timeslot)
                         max_timeslot = timeslot[i][1];
-            }
+            }   
             nslot = max_timeslot;
-            System.out.println(nslot);
+//            System.out.println(nslot);
 //            hillClimb(conflict_matrix, timeslot, ts, sum, ts);
             if(method == 1){
                 int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), maxts);
@@ -335,7 +335,7 @@ public class hh {
                 System.out.println("HC penalty : "+ pHill1);
                 System.out.println("HC Delta  : " + delta(pInit, pHill1));
                 System.out.println("HC time : " + hctime);
-                export(schHC, "test");
+                export(schHC, "hc");
             
             } else if(method == 2){
                 int tsTabus[][]= tabus(timeslot, conflict_matrix, course, student, maxts);
@@ -346,13 +346,14 @@ public class hh {
                 System.out.println("TS Penalty : "+ pTabu1);
                 System.out.println("TS Delta  : " + delta(pInit, pTabu1));
                 System.out.println("TS time : " + tstime);
+                export(schTS, "ts");
 //                for(int i = 0;i<listPen.size();i++){
 //                    System.out.println(listPen.get(i));
 //                    
 //                }
-                for(int i =0;i<tsTabus.length;i++){
-                    System.out.println(Arrays.toString(tsTabus[i]));
-                }
+//                for(int i =0;i<tsTabus.length;i++){
+//                    System.out.println(Arrays.toString(tsTabus[i]));
+//                }
                 
             }else if(method == 3) {
                 int tsvns[][]=vns(timeslot, conflict_matrix, course, student, maxts);
@@ -363,6 +364,7 @@ public class hh {
                 System.out.println("VNS Penalty : "+ pVNS);
                 System.out.println("VNS Delta  : " + delta(pInit, pVNS));
                 System.out.println("VNS time : " + vnstime);
+                export(schVNS, "vns");
             } 
             else if(method == 4) {
 //                int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
@@ -380,15 +382,15 @@ public class hh {
                 System.out.println("TS time : " + tstime);
                 System.out.println("===============================");
                 System.out.println("List penalty VNS");
-                for(int i=0; i<listPenVns.size();i++){
-                    System.out.println(listPenVns.get(i));
-                }
-                System.out.println("===============================");
-                System.out.println("List penalty TS");
-                for(int i=0; i<listPen.size();i++){
-                    System.out.println(listPen.get(i));
-                }
-                System.out.println("===============================");
+//                for(int i=0; i<listPenVns.size();i++){
+//                    System.out.println(listPenVns.get(i));
+//                }
+//                System.out.println("===============================");
+//                System.out.println("List penalty TS");
+//                for(int i=0; i<listPen.size();i++){
+//                    System.out.println(listPen.get(i));
+//                }
+//                System.out.println("===============================");
             } 
             
                
