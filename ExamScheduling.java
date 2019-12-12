@@ -28,9 +28,9 @@ public class hh {
     static double pTabu1;
     static double pTabu2;
     static double pVNS;
-    static long hctime;
-    static long tstime;
-    static long vnstime;
+    static double hctime;
+    static double tstime;
+    static double vnstime;
     static int [][] sch1;
     static int [][] schHC;
     static int [][] schTS;
@@ -362,6 +362,7 @@ public class hh {
                 System.out.println("Initial Penalty : "+pInit);
                 System.out.println("VNS Penalty : "+ pVNS);
                 System.out.println("VNS Delta  : " + delta(pInit, pVNS));
+                System.out.println("VNS time : " + vnstime);
             } 
             else if(method == 4) {
 //                int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
@@ -622,9 +623,9 @@ public class hh {
 
             }
             pTabu1 = penalty3;
-            long endtime   = System.nanoTime();
-            long time = endtime - starttime;
-            time = (long)time/1000000000;
+            double endtime   = System.nanoTime();
+            double time = endtime - starttime;
+            time = (double)time/1000000000;
             
             export(sbest, "test");
             
@@ -695,9 +696,9 @@ public class hh {
             
 //            System.out.println("iterasi "+(i+1)+" penalty "+ pHill1);
         }
-        long endtime   = System.nanoTime();
-        long time = endtime - starttime;
-        time = (long)time/1000000000;
+        double endtime   = System.nanoTime();
+        double time = endtime - starttime;
+        time = (double)time/1000000000;
         hctime = time;
         schHC = timeslotH2;
 //        System.out.println("time : " + (double)time/1000000000 + " s");
@@ -896,9 +897,9 @@ public class hh {
                 listPenVns.add(bestpenalty);
             }
         }       
-        long endvns   = System.nanoTime();
-        long time = endvns - startvns;
-        time = (long)time/1000000000;
+        double endvns   = System.nanoTime();
+        double time = endvns - startvns;
+        time = (double)time/1000000000;
         schVNS = sbest;
         
         pVNS = bestpenalty;
