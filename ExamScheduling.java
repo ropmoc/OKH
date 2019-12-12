@@ -7,6 +7,7 @@ package tt;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -41,11 +42,11 @@ public class hh {
     static ArrayList<Double> listPenTS = new ArrayList<Double>();
     
     public static void main(String[] args) {
-        String carf92_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-f-92.crs";
-        String carf92_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-f-92.stu";
-
         String cars91_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-s-91.crs";
         String cars91_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-s-91.stu";
+        
+        String carf92_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-f-92.crs";
+        String carf92_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\car-f-92.stu";
 
         String earf83_crs = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\ear-f-83.crs";
         String earf83_stu = "C:\\Users\\DELL\\Documents\\project\\OKH\\toronto\\ear-f-83.stu";
@@ -107,47 +108,59 @@ public class hh {
         System.out.println("choose method : ");
         method = in.nextInt();
 
+        
         switch(input) {
             case 1 :
-                timeTabling(carf92_crs, carf92_stu);
+                timeTabling(cars91_crs, cars91_stu,35);
+                
                 break;
             case 2 :
-                timeTabling(cars91_crs, cars91_stu);
+                timeTabling(carf92_crs, carf92_stu,32);
+                
                 break;
             case 3 :
-                timeTabling(earf83_crs, earf83_stu);
+                timeTabling(earf83_crs, earf83_stu, 24);
                 break;
             case 4 :
-                timeTabling(hecs92_crs, hecs92_stu);
+                timeTabling(hecs92_crs, hecs92_stu,18);
+                
                 break;
             case 5 :
-                timeTabling(kfus93_crs, kfus93_stu);
+                timeTabling(kfus93_crs, kfus93_stu,20);
+                
                 break;
             case 6 :
-                timeTabling(lsef91_crs, lsef91_stu);
+                timeTabling(lsef91_crs, lsef91_stu,18);
+                
                 break;
             case 7 :
-                timeTabling(purs93_crs, purs93_stu);
+                timeTabling(purs93_crs, purs93_stu,42);
+                
                 break;
             case 8 :
-                timeTabling(ryes93_crs, ryes93_stu);
+                timeTabling(ryes93_crs, ryes93_stu,23);
+                
                 break;
             case 9 :
-                timeTabling(staf83_crs, staf83_stu);
+                timeTabling(staf83_crs, staf83_stu,13);
+                    
                 break;
             case 10 :
-                timeTabling(tres92_crs, tres92_stu);
+                timeTabling(tres92_crs, tres92_stu,23);
+                
                 break;
             case 11 :
-                timeTabling(utas92_crs, utas92_stu);
+                timeTabling(utas92_crs, utas92_stu,35);
+                
                 break;
             case 12 :
-                timeTabling(utes92_crs, utes92_stu);
+                timeTabling(utes92_crs, utes92_stu,10);
+                ;            
                 break;
             case 13 :
-                timeTabling(yorf83_crs, yorf83_stu);
+                timeTabling(yorf83_crs, yorf83_stu,21);
+                          
                 break;
-
             case 0 :
                 System.out.println("exit");
                 break;
@@ -159,7 +172,7 @@ public class hh {
         
 
     }
-    public static void timeTabling(String crs, String stu) {
+    public static void timeTabling(String crs, String stu, int maxts) {
         ArrayList<String> course; 
         //ArrayList<String> scourse;
         ArrayList<String> student;
@@ -224,7 +237,7 @@ public class hh {
 //            for(int i = 0; i <degrees.length;i++){
 //                System.out.println(i + "" + Arrays.toString(degrees[i]));
 //            }
-            
+            int ts=1;
             int[][]sort_degrees = new int[course.size()][3];    
             sort_degrees=degrees;
            
@@ -243,24 +256,60 @@ public class hh {
 //            for(int i = 0; i <sort_degrees.length;i++){
 //                System.out.println(i + "" + Arrays.toString(sort_degrees[i]));
 //            }
-            int ts=1;
-            int [][] timeslot = new int[course.size()][2];
             
-            for(int i=0; i<sort_degrees.length; i++){
-                for(int j=0; j<ts; j++){
-                    if(check(i, j, conflict_matrix, sort_degrees, timeslot)){
-                            timeslot[sort_degrees[i][0]-1][0] = i;
-                            timeslot[sort_degrees[i][0]-1][1] = j;
-                            break;
-                    }else{
-                            ts++;
+            int [][] timeslot = new int[course.size()][2];
+            int [][] sat = new int[course.size()][2];
+            for(int  i=0; i<timeslot.length; i++) {
+                timeslot[i][0] = i+1;
+                timeslot[i][1] = -1;
+                sat[i][0] = sort_degrees[i][0];
+                sat[i][1] = course.size();
+            }
+            System.out.println(maxts);
+            /*for(int i=0; i<timeslot.length; i++)
+            {
+                for(int j=0; j<timeslot[i].length; j++)
+                {
+                    System.out.print(sat[i][j] + " ");
+                }
+                System.out.println();
+            }*/
+
+
+            for(int i=0; i<course.size(); i++){
+                int index = calculate(sat, 10000);
+                //System.out.println(index);
+                for (int j=0; j<=ts; j++){
+                    if(check2(sat[index][0]-1, j, conflict_matrix, timeslot)){
+                        timeslot[sat[index][0]-1][1] = j;
+                        sat[index][1] = 100000;
+                        int ind =0;
+                        for(int k=0; k<conflict_matrix.length; k++)
+                        {
+                            if(conflict_matrix[sat[index][0]-1][k]!=0)
+                            {
+                                ind = k;
+                                for(int l=0; l<sat.length; l++)
+                                {
+                                    if(sat[l][0]==k+1)
+                                    {
+                                        sat[l][1] = sat[l][1]-1;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    }
+                    else{
+                        ts++;
                     }
                 }
             }
-            
-//            for(int i = 0; i < timeslot.length; i++){
-//                System.out.println(Arrays.toString(timeslot[i]));
-//            }
+
+           
+            for(int i = 0; i < timeslot.length; i++){
+                System.out.println(Arrays.toString(timeslot[i]));
+            }
             
             double penalty = 0;
             pInit = penalty(conflict_matrix,timeslot,student.size());
@@ -278,27 +327,17 @@ public class hh {
             System.out.println(nslot);
 //            hillClimb(conflict_matrix, timeslot, ts, sum, ts);
             if(method == 1){
-                int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
+                int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), maxts);
                 System.out.println("done");
                 System.out.println("number of timeslot : "+nslot);
                 System.out.println("Initial Penalty : "+pInit);
                 System.out.println("HC penalty : "+ pHill1);
                 System.out.println("HC Delta  : " + delta(pInit, pHill1));
                 System.out.println("HC time : " + hctime);
-                for(int i = 0; i<tsHillClimb.length;i++){
-                    if(tsHillClimb[i][0]<100 && tsHillClimb[i][0]>10){
-                        System.out.println("00"+tsHillClimb[i][0]+"	"+tsHillClimb[i][1]);
-                    }
-                    else if(tsHillClimb[i][0]>100){
-                        System.out.println("0"+tsHillClimb[i][0]+"	"+tsHillClimb[i][1]);
-                    } else{
-                        System.out.println("000"+tsHillClimb[i][0]+"	"+tsHillClimb[i][1]);
-                    }
-                    
-                }
+                export(schHC, "test");
             
             } else if(method == 2){
-                int tsTabus[][]= tabus(timeslot, conflict_matrix, course, student, max_timeslot);
+                int tsTabus[][]= tabus(timeslot, conflict_matrix, course, student, maxts);
                 System.out.println("done");
                 System.out.println("number of timeslot : "+nslot);
                 System.out.println("Initial Penalty : "+pInit);
@@ -312,8 +351,9 @@ public class hh {
                 for(int i =0;i<tsTabus.length;i++){
                     System.out.println(Arrays.toString(tsTabus[i]));
                 }
+                
             }else if(method == 3) {
-                int tsvns[][]=vns(timeslot, conflict_matrix, course, student, max_timeslot);
+                int tsvns[][]=vns(timeslot, conflict_matrix, course, student, maxts);
                 System.out.println("done");
                 System.out.println("number of timeslot : "+nslot);
                 System.out.println("Initial Penalty : "+pInit);
@@ -367,8 +407,19 @@ public class hh {
         
         return delta;
     }
-    
-    public static int[][] tabus(int[][]timeslot, int[][]conflict_matrix , ArrayList<String> course, ArrayList<String> student, int max_timeslot) {
+    public static int calculate(int[][]sat, int batas)
+    {
+        int min = batas;
+        int index = 0;
+        for(int i=0; i<sat.length; i++) {
+            if (sat[i][1] < min) {
+                min = sat[i][1];
+                index = i;
+            }
+        }
+        return index;
+    }
+    public static int[][] tabus(int[][]timeslot, int[][]conflict_matrix , ArrayList<String> course, ArrayList<String> student, int maxts) {
             
             double in_penalty = 0;
             in_penalty = penalty(conflict_matrix,timeslot,student.size());
@@ -385,6 +436,7 @@ public class hh {
             int[][]ts3 = timeslot.clone();
             int[][]ts4 = timeslot.clone();
             int[][]ts5 = timeslot.clone();
+            int[][]temp = timeslot.clone();
             
             LinkedList<int[][]> tabulist = new LinkedList<int[][]>();
             int maxtabusize = 10;
@@ -408,84 +460,126 @@ public class hh {
                 boolean cek1 = false;
                 boolean cek2 = false;
                 boolean cek3 = false;
-               
+                
                 do{
                     ran_exam1 = r.nextInt(course.size());
-                    ran_slot1 = r.nextInt(max_timeslot);
+                    ran_slot1 = r.nextInt(maxts);
                     cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts1);
                 }while(cek1);
                 ts1[ran_exam1][1] = ran_slot1; 
                 sneighborhood.add(ts1);
                 
                 cek1 = false;
-
                 
+                temp = ts2;
                 do {                    
                     ran_exam1 = r.nextInt(course.size());
-                    ran_slot1 = r.nextInt(max_timeslot);
+                    ran_slot1 = r.nextInt(maxts);
+                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, temp);
+                } while(cek1);
+                temp[ran_exam1][1] = ran_slot1;
+                do {
                     ran_exam2 = r.nextInt(course.size());
-                    ran_slot2 = r.nextInt(max_timeslot);
-                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts2);
-                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts2);
-                } while(cek1 && cek2);
-                ts2[ran_exam1][1] = ran_slot1;
-                ts2[ran_exam2][1] = ran_slot2;
+                    ran_slot2 = r.nextInt(maxts);
+                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, temp);
+                } while (cek2);
+                temp[ran_exam2][1] = ran_slot2;
+                ts2 = temp;
                 sneighborhood.add(ts2);
-
+                
                 cek1 = false;
                 cek2 = false;
                 
-                
+                temp = ts3;
                 do {                    
                     ran_exam1 = r.nextInt(course.size());
-                    ran_slot1 = r.nextInt(max_timeslot);
+                    ran_slot1 = r.nextInt(maxts);
+                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, temp);
+                } while(cek1);
+                temp[ran_exam1][1] = ran_slot1;
+                do {
                     ran_exam2 = r.nextInt(course.size());
-                    ran_slot2 = r.nextInt(max_timeslot);
+                    ran_slot2 = r.nextInt(maxts);
+                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, temp);
+                } while (cek2);
+                temp[ran_exam2][1] = ran_slot2;
+                do {
                     ran_exam3 = r.nextInt(course.size());
-                    ran_slot3 = r.nextInt(max_timeslot);
-                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts3);
-                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts3);
-                    cek3 = !check2(ran_exam3, ran_slot3, conflict_matrix, ts3);
-                } while(cek1 && cek2 && cek3);
-                ts3[ran_exam1][1] = ran_slot1;
-                ts3[ran_exam2][1] = ran_slot2;
-                ts3[ran_exam3][1] = ran_slot3;
+                    ran_slot3 = r.nextInt(maxts);
+                    cek3 = !check2(ran_exam3, ran_slot3, conflict_matrix, temp);
+                } while (cek3);
+                temp[ran_exam3][1] = ran_slot3;
+                ts3 = temp;                
                 sneighborhood.add(ts3);
-
+//
                 cek1 = false;
                 cek2 = false;   
                 cek3 = false;     
-
-                do{
-                    ran_exam1 = r.nextInt(course.size());
-                    ran_exam2 = r.nextInt(course.size());
-                    ran_slot1 = ts4[ran_exam1][1];
-                    ran_slot2 = ts4[ran_exam2][1];
-                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts4);
-                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts4);
-                }while(ran_exam1==ran_exam2 && cek2 && cek3);
-                ts4[ran_exam1][1]=ran_slot2;
-                ts4[ran_exam2][1]=ran_slot1;
-                sneighborhood.add(ts4);
+//              
                 
-                cek1 = false;
-                cek2 = false; 
-
-                 do{
-                    ran_exam1 = r.nextInt(course.size());
-                    ran_exam2 = r.nextInt(course.size());
-                    ran_exam3 = r.nextInt(course.size());
-                    ran_slot1 = ts5[ran_exam1][1];
-                    ran_slot2 = ts5[ran_exam2][1];
-                    ran_slot3 = ts5[ran_exam3][1];
-                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts5);
-                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts5);
-                    cek3 = !check2(ran_exam3, ran_slot3, conflict_matrix, ts5);
-                }while(ran_exam1==ran_exam2 && ran_exam1==ran_exam3 && ran_exam2==ran_exam3 && cek1 && cek2 && cek3);
-                ts5[ran_exam1][1]=ran_slot2;
-                ts5[ran_exam2][1]=ran_slot3;
-                ts5[ran_exam3][1]=ran_slot1;
-                sneighborhood.add(ts5);
+                
+//                do{
+//                    temp = ts4;
+//                    do{
+//                        ran_exam1 = r.nextInt(course.size());
+//                        ran_exam2 = r.nextInt(course.size());
+//                        ran_slot1 = temp[ran_exam1][1];
+//                        ran_slot2 = temp[ran_exam2][1];
+//                    }while(ran_exam1==ran_exam2 && ran_slot1==ran_slot2);
+//                    cek1 = !check2(ran_exam1, ran_slot2, conflict_matrix, temp);
+//                    cek2 = !check2(ran_exam2, ran_slot1, conflict_matrix, temp);
+//                }while(cek1 && cek2);
+//                temp[ran_exam1][1]=ran_slot2;
+//                temp[ran_exam2][1]=ran_slot1;
+//                ts4 = temp;
+//                sneighborhood.add(ts4);
+//                
+//                cek1 = false;
+//                cek2 = false; 
+//                
+//                do{
+//                    temp = ts5;
+//                    do{
+//                        ran_exam1 = r.nextInt(course.size());
+//                        ran_exam2 = r.nextInt(course.size());
+//                        ran_exam3 = r.nextInt(course.size());
+//                        ran_slot1 = temp[ran_exam1][1];
+//                        ran_slot2 = temp[ran_exam2][1];
+//                        ran_slot3 = temp[ran_exam3][1];
+//                    }while(ran_exam1==ran_exam2 && ran_slot1==ran_slot2 && ran_exam1==ran_exam3 && ran_slot1==ran_slot3 &&ran_exam3==ran_exam2 && ran_slot3==ran_slot2);
+//                    cek1 = !check2(ran_exam1, ran_slot2, conflict_matrix, temp);
+//                    if(cek1 = true){
+//                        break;
+//                    }
+//                    temp[ran_exam1][1]=ran_slot2;
+//                    cek2 = !check2(ran_exam2, ran_slot3, conflict_matrix, temp);
+//                    if(cek2 = true){
+//                        break;
+//                    }
+//                    temp[ran_exam2][1]=ran_slot3;
+//                    cek2 = !check2(ran_exam3, ran_slot1, conflict_matrix, temp);
+//                    if(cek2 = true){
+//                        break;
+//                    }
+//                    temp[ran_exam3][1]=ran_slot1;
+//                }while(cek1 && cek2 && cek3);
+//                ts5 = temp;
+//                sneighborhood.add(ts5);
+//                 do{
+//                    ran_exam1 = r.nextInt(course.size());
+//                    ran_exam2 = r.nextInt(course.size());
+//                    ran_exam3 = r.nextInt(course.size());
+//                    ran_slot1 = ts5[ran_exam1][1];
+//                    ran_slot2 = ts5[ran_exam2][1];
+//                    ran_slot3 = ts5[ran_exam3][1];
+//                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts5);
+//                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts5);
+//                    cek3 = !check2(ran_exam3, ran_slot3, conflict_matrix, ts5);
+//                }while(ran_exam1==ran_exam2 && ran_exam1==ran_exam3 && ran_exam2==ran_exam3 && cek1 && cek2 && cek3);
+//                ts5[ran_exam1][1]=ran_slot2;
+//                ts5[ran_exam2][1]=ran_slot3;
+//                ts5[ran_exam3][1]=ran_slot1;
+//                sneighborhood.add(ts5);
 //                    System.out.println(sneighborhood.size());
 
                 
@@ -528,6 +622,8 @@ public class hh {
             long time = endtime - starttime;
             time = (long)time/1000000000;
             
+            export(sbest, "test");
+            
             penalty3 = penalty(conflict_matrix, sbest, student.size());
             schTS = sbest;
             //hillclimbing(conflict_matrix, timeslot, student.size(), course.size(), max_timeslot);
@@ -568,7 +664,7 @@ public class hh {
         return true;
     }
     
-    public static int[][] hillClimb(int conf[][], int[][]timeslot, int stu, int cour, int max) {
+    public static int[][] hillClimb(int conf[][], int[][]timeslot, int stu, int cour, int maxts) {
         Random r = new Random();
         int ran_exam=0;
         int ran_slot=0;
@@ -579,7 +675,7 @@ public class hh {
         long starttime = System.nanoTime();
         for (int i = 0; i < n_it; i++) {
             ran_exam=r.nextInt(cour);
-            ran_slot=r.nextInt(max);
+            ran_slot=r.nextInt(maxts);
 
             if(check2(ran_exam, ran_slot, conf, timeslotH1)) {
                 timeslotH2[ran_exam][1] = ran_slot;
@@ -599,7 +695,7 @@ public class hh {
         long time = endtime - starttime;
         time = (long)time/1000000000;
         hctime = time;
-        
+        schHC = timeslotH2;
 //        System.out.println("time : " + (double)time/1000000000 + " s");
         
         return timeslotH2;
@@ -618,7 +714,7 @@ public class hh {
         
         
     }
-    public static int[][] vns(int[][]timeslot, int[][]conflict_matrix , ArrayList<String> course, ArrayList<String> student, int max_timeslot) {
+    public static int[][] vns(int[][]timeslot, int[][]conflict_matrix , ArrayList<String> course, ArrayList<String> student, int maxts) {
         int ran_exam1,ran_exam2,ran_exam3,ran_examx = 0;
         int ran_slot1,ran_slot2,ran_slot3,ran_slotx = 0;
         
@@ -630,6 +726,7 @@ public class hh {
         int[][]ts3 = timeslot.clone();
         int[][]ts4 = timeslot.clone();
         int[][]ts5 = timeslot.clone();
+        int[][]temp = timeslot.clone();
         
         int ts_it = 1000;
         int iteration=0;
@@ -653,83 +750,116 @@ public class hh {
         boolean cek3,cekx = false;
         
         long startvns = System.nanoTime();
-        do{
-            ran_exam1 = r.nextInt(course.size());
-            ran_slot1 = r.nextInt(max_timeslot);
-            cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts1);
-        }while(cek1);
-        ts1[ran_exam1][1] = ran_slot1; 
-        sneighborhood.add(ts1);
+            do{
+                ran_exam1 = r.nextInt(course.size());
+                ran_slot1 = r.nextInt(maxts);
+                cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts1);
+            }while(cek1);
+            ts1[ran_exam1][1] = ran_slot1; 
+            sneighborhood.add(ts1);
 
-        cek1 = false;
+            cek1 = false;
+
+            temp = ts2;
+            do {                    
+                ran_exam1 = r.nextInt(course.size());
+                ran_slot1 = r.nextInt(maxts);
+                cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, temp);
+            } while(cek1);
+            temp[ran_exam1][1] = ran_slot1;
+            do {
+                ran_exam2 = r.nextInt(course.size());
+                ran_slot2 = r.nextInt(maxts);
+                cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, temp);
+            } while (cek2);
+            temp[ran_exam2][1] = ran_slot2;
+            ts2 = temp;
+            sneighborhood.add(ts2);
+
+            cek1 = false;
+            cek2 = false;
+
+            temp = ts3;
+            do {                    
+                ran_exam1 = r.nextInt(course.size());
+                ran_slot1 = r.nextInt(maxts);
+                cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, temp);
+            } while(cek1);
+            temp[ran_exam1][1] = ran_slot1;
+            do {
+                ran_exam2 = r.nextInt(course.size());
+                ran_slot2 = r.nextInt(maxts);
+                cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, temp);
+            } while (cek2);
+            temp[ran_exam2][1] = ran_slot2;
+            do {
+                ran_exam3 = r.nextInt(course.size());
+                ran_slot3 = r.nextInt(maxts);
+                cek3 = !check2(ran_exam3, ran_slot3, conflict_matrix, temp);
+            } while (cek3);
+            temp[ran_exam3][1] = ran_slot3;
+            ts3 = temp;                
+            sneighborhood.add(ts3);
+//
+            cek1 = false;
+            cek2 = false;   
+            cek3 = false;     
+//              
 
 
-        do {                    
-            ran_exam1 = r.nextInt(course.size());
-            ran_slot1 = r.nextInt(max_timeslot);
-            ran_exam2 = r.nextInt(course.size());
-            ran_slot2 = r.nextInt(max_timeslot);
-            cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts2);
-            cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts2);
-        } while(cek1 && cek2);
-        ts2[ran_exam1][1] = ran_slot1;
-        ts2[ran_exam2][1] = ran_slot2;
-        sneighborhood.add(ts2);
+            do{
+                temp = ts4;
+                do{
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_exam2 = r.nextInt(course.size());
+                    ran_slot1 = temp[ran_exam1][1];
+                    ran_slot2 = temp[ran_exam2][1];
+                }while(ran_exam1==ran_exam2 && ran_slot1==ran_slot2);
+                cek1 = !check2(ran_exam1, ran_slot2, conflict_matrix, temp);
+                if(cek1 = true){
+                    break;
+                }
+                temp[ran_exam1][1]=ran_slot2;
+                cek2 = !check2(ran_exam2, ran_slot1, conflict_matrix, temp);
+                if(cek2 = true){
+                    break;
+                }
+                temp[ran_exam2][1]=ran_slot1;
+            }while(cek1 && cek2);
+            ts4 = temp;
+            sneighborhood.add(ts4);
 
-        cek1 = false;
-        cek2 = false;
+            cek1 = false;
+            cek2 = false; 
 
-
-        do {                    
-            ran_exam1 = r.nextInt(course.size());
-            ran_slot1 = r.nextInt(max_timeslot);
-            ran_exam2 = r.nextInt(course.size());
-            ran_slot2 = r.nextInt(max_timeslot);
-            ran_exam3 = r.nextInt(course.size());
-            ran_slot3 = r.nextInt(max_timeslot);
-            cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts3);
-            cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts3);
-            cek3 = !check2(ran_exam3, ran_slot3, conflict_matrix, ts3);
-        } while(cek1 && cek2 && cek3);
-        ts3[ran_exam1][1] = ran_slot1;
-        ts3[ran_exam2][1] = ran_slot2;
-        ts3[ran_exam3][1] = ran_slot3;
-        sneighborhood.add(ts3);
-
-        cek1 = false;
-        cek2 = false;   
-        cek3 = false;     
-
-        do{
-            ran_exam1 = r.nextInt(course.size());
-            ran_exam2 = r.nextInt(course.size());
-            ran_slot1 = ts4[ran_exam1][1];
-            ran_slot2 = ts4[ran_exam2][1];
-            cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts4);
-            cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts4);
-        }while(ran_exam1==ran_exam2 && cek2 && cek3);
-        ts4[ran_exam1][1]=ran_slot2;
-        ts4[ran_exam2][1]=ran_slot1;
-        sneighborhood.add(ts4);
-
-        cek1 = false;
-        cek2 = false; 
-
-         do{
-            ran_exam1 = r.nextInt(course.size());
-            ran_exam2 = r.nextInt(course.size());
-            ran_exam3 = r.nextInt(course.size());
-            ran_slot1 = ts5[ran_exam1][1];
-            ran_slot2 = ts5[ran_exam2][1];
-            ran_slot3 = ts5[ran_exam3][1];
-            cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts5);
-            cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, ts5);
-            cek3 = !check2(ran_exam3, ran_slot3, conflict_matrix, ts5);
-        }while(ran_exam1==ran_exam2 && ran_exam1==ran_exam3 && ran_exam2==ran_exam3 && cek1 && cek2 && cek3);
-        ts5[ran_exam1][1]=ran_slot2;
-        ts5[ran_exam2][1]=ran_slot3;
-        ts5[ran_exam3][1]=ran_slot1;
-        sneighborhood.add(ts5);
+            do{
+                temp = ts5;
+                do{
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_exam2 = r.nextInt(course.size());
+                    ran_exam3 = r.nextInt(course.size());
+                    ran_slot1 = temp[ran_exam1][1];
+                    ran_slot2 = temp[ran_exam2][1];
+                    ran_slot3 = temp[ran_exam3][1];
+                }while(ran_exam1==ran_exam2 && ran_slot1==ran_slot2 && ran_exam1==ran_exam3 && ran_slot1==ran_slot3 &&ran_exam3==ran_exam2 && ran_slot3==ran_slot2);
+                cek1 = !check2(ran_exam1, ran_slot2, conflict_matrix, temp);
+                if(cek1 = true){
+                    break;
+                }
+                temp[ran_exam1][1]=ran_slot2;
+                cek2 = !check2(ran_exam2, ran_slot3, conflict_matrix, temp);
+                if(cek2 = true){
+                    break;
+                }
+                temp[ran_exam2][1]=ran_slot3;
+                cek2 = !check2(ran_exam3, ran_slot1, conflict_matrix, temp);
+                if(cek2 = true){
+                    break;
+                }
+                temp[ran_exam3][1]=ran_slot1;
+            }while(cek1 && cek2 && cek3);
+            ts5 = temp;
+            sneighborhood.add(ts5);
         
         for(int i=0;i<ts_it;){
             int k=0;
@@ -739,13 +869,13 @@ public class hh {
                 int [][]knx = sneighborhood.get(k);
                 do{
                     ran_examx = r.nextInt(course.size());
-                    ran_slotx = r.nextInt(max_timeslot);
+                    ran_slotx = r.nextInt(maxts);
                     cekx = !check2(ran_examx, ran_slotx, conflict_matrix, knx);
                 }while(cekx);
                 knx[ran_examx][1] = ran_slotx;
                 cekx = false;
                 //local search
-                int [][]knxx = hillClimb(conflict_matrix, knx, student.size(), course.size(), max_timeslot);
+                int [][]knxx = hillClimb(conflict_matrix, knx, student.size(), course.size(), maxts);
                 penalty1 = penalty(conflict_matrix, knx, student.size());
                 penalty2 = penalty(conflict_matrix, knxx, student.size());
                 if(penalty2<bestpenalty){
@@ -765,11 +895,28 @@ public class hh {
         long endvns   = System.nanoTime();
         long time = endvns - startvns;
         time = (long)time/1000000000;
-        
+        schVNS = sbest;
         
         pVNS = bestpenalty;
         vnstime = time;
         return best_sol_vns;
+    }
+    public static void export(int[][]timeslot, String filename){
+        try{    
+            FileWriter fw=new FileWriter("C:\\Users\\DELL\\Documents\\project\\OKH\\test\\"+filename+".sol");    
+            for (int i = 0; i <timeslot.length; i++) {
+                for (int j = 0; j <timeslot[i].length; j++) {
+                    timeslot[i][0]=i+1;
+                      fw.write(timeslot[i][j]+ " ");
+                }
+                fw.write("\n");  
+            }
+             
+            fw.close();    
+        } catch(Exception e){
+        	System.out.println(e);
+        }    
+            System.out.println("File "+filename+".sol berhasil disimpan di C");    
     }
 }
     
