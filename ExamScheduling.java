@@ -330,6 +330,7 @@ public class hh {
                 int tsHillClimb[][]=hillClimb(conflict_matrix, timeslot, student.size(), course.size(), maxts);
                 System.out.println("done");
                 System.out.println("number of timeslot : "+nslot);
+                System.out.println("correct timeslot : "+maxts);
                 System.out.println("Initial Penalty : "+pInit);
                 System.out.println("HC penalty : "+ pHill1);
                 System.out.println("HC Delta  : " + delta(pInit, pHill1));
@@ -340,6 +341,7 @@ public class hh {
                 int tsTabus[][]= tabus(timeslot, conflict_matrix, course, student, maxts);
                 System.out.println("done");
                 System.out.println("number of timeslot : "+nslot);
+                System.out.println("correct timeslot : "+maxts);
                 System.out.println("Initial Penalty : "+pInit);
                 System.out.println("TS Penalty : "+ pTabu1);
                 System.out.println("TS Delta  : " + delta(pInit, pTabu1));
@@ -356,6 +358,7 @@ public class hh {
                 int tsvns[][]=vns(timeslot, conflict_matrix, course, student, maxts);
                 System.out.println("done");
                 System.out.println("number of timeslot : "+nslot);
+                System.out.println("correct timeslot : "+maxts);
                 System.out.println("Initial Penalty : "+pInit);
                 System.out.println("VNS Penalty : "+ pVNS);
                 System.out.println("VNS Delta  : " + delta(pInit, pVNS));
@@ -366,6 +369,7 @@ public class hh {
                 int tsTabus[][]= tabus(timeslot, conflict_matrix, course, student, max_timeslot);
                 System.out.println("done");
                 System.out.println("number of timeslot : "+nslot);
+                System.out.println("correct timeslot : "+maxts);
                 System.out.println("Initial Penalty : "+pInit);
                 System.out.println("VNS penalty : "+ pVNS);
                 System.out.println("VNS Delta  : " + delta(pInit, pVNS));
