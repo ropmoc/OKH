@@ -523,8 +523,116 @@ public class hh {
                 cek2 = false;   
                 cek3 = false;     
 //              
+                do{
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_slot1 = r.nextInt(maxts);
+                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, ts1);
+                }while(cek1);
+                ts1[ran_exam1][1] = ran_slot1; 
+                sneighborhood.add(ts1);
+
+                cek1 = false;
+
+                temp = ts2;
+                do {                    
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_slot1 = r.nextInt(maxts);
+                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, temp);
+                } while(cek1);
+                temp[ran_exam1][1] = ran_slot1;
+                do {
+                    ran_exam2 = r.nextInt(course.size());
+                    ran_slot2 = r.nextInt(maxts);
+                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, temp);
+                } while (cek2);
+                temp[ran_exam2][1] = ran_slot2;
+                ts2 = temp;
+                sneighborhood.add(ts2);
+
+                cek1 = false;
+                cek2 = false;
+
+                temp = ts3;
+                do {                    
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_slot1 = r.nextInt(maxts);
+                    cek1 = !check2(ran_exam1, ran_slot1, conflict_matrix, temp);
+                } while(cek1);
+                temp[ran_exam1][1] = ran_slot1;
+                do {
+                    ran_exam2 = r.nextInt(course.size());
+                    ran_slot2 = r.nextInt(maxts);
+                    cek2 = !check2(ran_exam2, ran_slot2, conflict_matrix, temp);
+                } while (cek2);
+                temp[ran_exam2][1] = ran_slot2;
+                do {
+                    ran_exam3 = r.nextInt(course.size());
+                    ran_slot3 = r.nextInt(maxts);
+                    cek3 = !check2(ran_exam3, ran_slot3, conflict_matrix, temp);
+                } while (cek3);
+                temp[ran_exam3][1] = ran_slot3;
+                ts3 = temp;                
+                sneighborhood.add(ts3);
+                //
+                cek1 = false;
+                cek2 = false;   
+                cek3 = false;     
+                //              
+
+
+                do{
+                temp = ts4;
+                do{
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_exam2 = r.nextInt(course.size());
+                    ran_slot1 = temp[ran_exam1][1];
+                    ran_slot2 = temp[ran_exam2][1];
+                }while(ran_exam1==ran_exam2 && ran_slot1==ran_slot2);
+                cek1 = !check2(ran_exam1, ran_slot2, conflict_matrix, temp);
+                if(cek1 = false){
+                    temp[ran_exam1][1]=ran_slot2;
+                }
+                cek2 = !check2(ran_exam2, ran_slot1, conflict_matrix, temp);
+                if(cek2 = false){
+                    temp[ran_exam2][1]=ran_slot1;
+                }
                 
+                }while(cek1 && cek2);
+                ts4 = temp;
+                sneighborhood.add(ts4);
+
+                cek1 = false;
+                cek2 = false; 
+
+                do{
+                temp = ts5;
+                do{
+                    ran_exam1 = r.nextInt(course.size());
+                    ran_exam2 = r.nextInt(course.size());
+                    ran_exam3 = r.nextInt(course.size());
+                    ran_slot1 = temp[ran_exam1][1];
+                    ran_slot2 = temp[ran_exam2][1];
+                    ran_slot3 = temp[ran_exam3][1];
+                }while(ran_exam1==ran_exam2 && ran_slot1==ran_slot2 && ran_exam1==ran_exam3 && ran_slot1==ran_slot3 &&ran_exam3==ran_exam2 && ran_slot3==ran_slot2);
+                cek1 = !check2(ran_exam1, ran_slot2, conflict_matrix, temp);
+                if(cek1 = false){
+                        temp[ran_exam1][1]=ran_slot2;
+                }
                 
+                cek2 = !check2(ran_exam2, ran_slot3, conflict_matrix, temp);
+                if(cek2 = false){
+                        temp[ran_exam2][1]=ran_slot3;
+                }
+                
+                cek2 = !check2(ran_exam3, ran_slot1, conflict_matrix, temp);
+                if(cek2 = true){
+                        temp[ran_exam3][1]=ran_slot1;
+                }
+                
+                }while(cek1 && cek2 && cek3);
+                ts5 = temp;
+                sneighborhood.add(ts5);
+                                
 //                do{
 //                    temp = ts4;
 //                    do{
@@ -813,60 +921,59 @@ public class hh {
             cek3 = false;     
 //              
 
-//
-//            do{
-//                temp = ts4;
-//                do{
-//                    ran_exam1 = r.nextInt(course.size());
-//                    ran_exam2 = r.nextInt(course.size());
-//                    ran_slot1 = temp[ran_exam1][1];
-//                    ran_slot2 = temp[ran_exam2][1];
-//                }while(ran_exam1==ran_exam2 && ran_slot1==ran_slot2);
-//                cek1 = !check2(ran_exam1, ran_slot2, conflict_matrix, temp);
-//                if(cek1 = true){
-//                    break;
-//                }
-//                temp[ran_exam1][1]=ran_slot2;
-//                cek2 = !check2(ran_exam2, ran_slot1, conflict_matrix, temp);
-//                if(cek2 = true){
-//                    break;
-//                }
-//                temp[ran_exam2][1]=ran_slot1;
-//            }while(cek1 && cek2);
-//            ts4 = temp;
-//            sneighborhood.add(ts4);
-//
-//            cek1 = false;
-//            cek2 = false; 
-//
-//            do{
-//                temp = ts5;
-//                do{
-//                    ran_exam1 = r.nextInt(course.size());
-//                    ran_exam2 = r.nextInt(course.size());
-//                    ran_exam3 = r.nextInt(course.size());
-//                    ran_slot1 = temp[ran_exam1][1];
-//                    ran_slot2 = temp[ran_exam2][1];
-//                    ran_slot3 = temp[ran_exam3][1];
-//                }while(ran_exam1==ran_exam2 && ran_slot1==ran_slot2 && ran_exam1==ran_exam3 && ran_slot1==ran_slot3 &&ran_exam3==ran_exam2 && ran_slot3==ran_slot2);
-//                cek1 = !check2(ran_exam1, ran_slot2, conflict_matrix, temp);
-//                if(cek1 = true){
-//                    break;
-//                }
-//                temp[ran_exam1][1]=ran_slot2;
-//                cek2 = !check2(ran_exam2, ran_slot3, conflict_matrix, temp);
-//                if(cek2 = true){
-//                    break;
-//                }
-//                temp[ran_exam2][1]=ran_slot3;
-//                cek2 = !check2(ran_exam3, ran_slot1, conflict_matrix, temp);
-//                if(cek2 = true){
-//                    break;
-//                }
-//                temp[ran_exam3][1]=ran_slot1;
-//            }while(cek1 && cek2 && cek3);
-//            ts5 = temp;
-//            sneighborhood.add(ts5);
+
+           do{
+               temp = ts4;
+               do{
+                   ran_exam1 = r.nextInt(course.size());
+                   ran_exam2 = r.nextInt(course.size());
+                   ran_slot1 = temp[ran_exam1][1];
+                   ran_slot2 = temp[ran_exam2][1];
+               }while(ran_exam1==ran_exam2 && ran_slot1==ran_slot2);
+               cek1 = !check2(ran_exam1, ran_slot2, conflict_matrix, temp);
+               if(cek1 = false){
+                temp[ran_exam1][1]=ran_slot2;
+               }
+               cek2 = !check2(ran_exam2, ran_slot1, conflict_matrix, temp);
+               if(cek2 = false){
+                temp[ran_exam2][1]=ran_slot1;
+               }
+               
+           }while(cek1 && cek2);
+           ts4 = temp;
+           sneighborhood.add(ts4);
+
+           cek1 = false;
+           cek2 = false; 
+
+           do{
+               temp = ts5;
+               do{
+                   ran_exam1 = r.nextInt(course.size());
+                   ran_exam2 = r.nextInt(course.size());
+                   ran_exam3 = r.nextInt(course.size());
+                   ran_slot1 = temp[ran_exam1][1];
+                   ran_slot2 = temp[ran_exam2][1];
+                   ran_slot3 = temp[ran_exam3][1];
+               }while(ran_exam1==ran_exam2 && ran_slot1==ran_slot2 && ran_exam1==ran_exam3 && ran_slot1==ran_slot3 &&ran_exam3==ran_exam2 && ran_slot3==ran_slot2);
+               cek1 = !check2(ran_exam1, ran_slot2, conflict_matrix, temp);
+               if(cek1 = false){
+                    temp[ran_exam1][1]=ran_slot2;
+               }
+               
+               cek2 = !check2(ran_exam2, ran_slot3, conflict_matrix, temp);
+               if(cek2 = false){
+                    temp[ran_exam2][1]=ran_slot3;
+               }
+               
+               cek2 = !check2(ran_exam3, ran_slot1, conflict_matrix, temp);
+               if(cek2 = true){
+                    temp[ran_exam3][1]=ran_slot1;
+               }
+               
+           }while(cek1 && cek2 && cek3);
+           ts5 = temp;
+           sneighborhood.add(ts5);
         
         for(int i=0;i<ts_it;){
             int k=0;
